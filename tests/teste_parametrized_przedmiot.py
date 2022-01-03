@@ -27,3 +27,9 @@ class TestsParametrizedPrzedmiot(unittest.TestCase):
 
     def test_przedmiot_init_wrong_wartosc(self):
         assert_that(Przedmiot).raises(ValueError).when_called_with(self.przedmiot.id, self.przedmiot.nazwa, self.positive_float_wrong_value)
+
+    def test_przedmiot_change_name_wrong(self):
+        assert_that(self.przedmiot.zmien_nazwe).raises(ValueError).when_called_with(self.str_wrong_value)
+
+    def test_przedmiot_change_value_wrong(self):
+        assert_that(self.przedmiot.zmien_wartosc).raises(ValueError).when_called_with(self.positive_float_wrong_value)

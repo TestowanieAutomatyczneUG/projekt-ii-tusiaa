@@ -21,5 +21,15 @@ class TestsPrzedmiot(unittest.TestCase):
     def test_przedmiot_add_item_to_database_already_exists(self, mock_dodaj_przedmiot):
         self.przedmiot.dodaj_do_bazy()
         assert_that(self.przedmiot.dodaj_do_bazy).raises(ValueError)
+
+    @patch.object(Baza_Danych, 'edytuj_przedmiot')
+    def test_przedmiot_change_name(self, mock_edytuj_przedmiot):
+        self.przedmiot.zmien_nazwe("Nowa nazwa")
+        mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, "Nowa nazwa", self.przedmiot.wartosc)
+
+    @patch.object(Baza_Danych, 'edytuj_przedmiot')
+    def test_przedmiot_change_value(self, mock_edytuj_przedmiot):
+        self.przedmiot.zmien_wartosc(200.0)
+        mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, 200.0)
     
 
