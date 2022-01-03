@@ -7,6 +7,8 @@ class Zamowienie:
             raise ValueError("id nie jest liczba")
         if type(klient_id) is not int:
             raise ValueError("klient_id nie jest liczba")
+        if not Baza_Danych.znajdz_klienta(klient_id):
+            raise ValueError("Nie ma takiego klienta")
         self.id = id
         self.klient_id = klient_id
         self.przedmioty = []
