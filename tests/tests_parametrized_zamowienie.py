@@ -16,9 +16,10 @@ from src.zamowienie import *
 class TestsParametrizedZamowienie(unittest.TestCase):
 
     @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'znajdz_przedmioty_z_zamowienia', return_value=[(1, 111)])
     @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(111, "Nazwa", 100.0))
-    def setUp(self, mock_znajdz_przedmiot, mock_znajdz_przedmioty_z_zamowienia, mock_czytaj_zamowienia):
+    def setUp(self, mock_znajdz_przedmiot, mock_znajdz_przedmioty_z_zamowienia, mock_znajdz_klienta, mock_czytaj_zamowienia):
         self.zamowienie = Zamowienie(mock_czytaj_zamowienia()[0][0], mock_czytaj_zamowienia()[0][1])
         przedmiot = mock_znajdz_przedmiot(mock_znajdz_przedmioty_z_zamowienia(mock_czytaj_zamowienia()[0][0])[0][1])
         self.zamowienie.przedmioty.append(Przedmiot(przedmiot[0], przedmiot[1], przedmiot[2]))
@@ -35,5 +36,7 @@ class TestsParametrizedZamowienie(unittest.TestCase):
     def test_zamowienie_remove_item_wrong_id(self):
         assert_that(self.zamowienie.usun_przedmiot).raises(ValueError).when_called_with(self.int_wrong_value)
 
+    def test_zamowienie_check_if_item_in_order_wrong_id(self):
+        assert_that(self.zamowienie.czy_jest_przedmiot).raises(ValueError).when_called_with(self.int_wrong_value)
 
-        
+

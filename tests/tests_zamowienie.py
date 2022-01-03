@@ -51,3 +51,9 @@ class TestsZamowienie(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.zamowienie.usun_przedmiot(112)
 
+    def test_zamowienie_check_if_item_in_order_true(self):
+        assert_that(self.zamowienie.czy_jest_przedmiot(self.zamowienie.przedmioty[0])).is_true()
+
+    def test_zamowienie_check_if_item_in_order_false(self):
+        assert_that(self.zamowienie.czy_jest_przedmiot(112)).is_false()
+
