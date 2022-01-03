@@ -57,3 +57,13 @@ class TestsZamowienie(unittest.TestCase):
     def test_zamowienie_check_if_item_in_order_false(self):
         assert_that(self.zamowienie.czy_jest_przedmiot(112)).is_false()
 
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
+    def test_zamowienie_get_client(self, mock_znajdz_klienta):
+        self.zamowienie.dane_klient()
+        mock_znajdz_klienta.assert_called_once()
+
+    @patch.object(Baza_Danych, 'znajdz_przedmiot', side_effect=[(111, "Nazwa", 100.0), (112, "Nazwa", 100.0)])
+    def test_zamowienie_get_items(self, mock_znajdz_przedmiot):
+        self.zamowienie.przedmioty.append(112)
+        self.zamowienie.dane_przedmioty()
+        mock_znajdz_przedmiot.assert_called()
