@@ -7,3 +7,11 @@ class Baza_Danych:
         pass
     def czytaj_przedmioty_z_zamowienia(self, id_zamowienia):
         pass
+    def dodaj_klienta(self, id, imie, nazwisko, email):
+        pass
+    def dodaj_przedmiot(self, id, nazwa, wartosc):
+        pass
+    def dodaj_zamowienie(self, id, klient_id):
+        pass
+    def dodaj_przedmiot_do_zamowienia(self, id_zamowienia, id_przedmiotu):
+        pass

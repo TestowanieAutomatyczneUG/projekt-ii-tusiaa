@@ -11,6 +11,15 @@ class TestsPrzedmiot(unittest.TestCase):
 
     def test_przedmiot_init(self):
         assert_that(self.przedmiot).is_not_none()
-    
+
+    patch.object(Baza_Danych, 'dodaj_przedmiot')
+    def test_przedmiot_add_item_to_database(self, mock_dodaj_przedmiot):
+        self.przedmiot.dodaj_do_bazy()
+        mock_dodaj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, self.przedmiot.wartosc)
+
+    patch.object(Baza_Danych, 'dodaj_przedmiot', side_effect=[None, ValueError])
+    def test_przedmiot_add_item_to_database_already_exists(self, mock_dodaj_przedmiot):
+        self.przedmiot.dodaj_do_bazy()
+        assert_that(self.przedmiot.dodaj_do_bazy).raises(ValueError)
     
 
