@@ -17,6 +17,9 @@ class Przedmiot:
     def dodaj_do_bazy(self):
         Baza_Danych.dodaj_przedmiot(self.id, self.nazwa, self.wartosc)
 
+    def usun_z_bazy(self):
+        Baza_Danych.usun_przedmiot(self.id)
+
     def zmien_nazwe(self, nazwa):
         if type(nazwa) is not str or not nazwa:
             raise ValueError("nazwa musi być napisem")
