@@ -5,7 +5,17 @@ class Baza_Danych:
         pass
     def czytaj_zamowienia(self):
         pass
-    def czytaj_przedmioty_z_zamowienia(self, id_zamowienia):
+    def czytaj_przedmioty_z_zamowien(self):
+        pass
+    def znajdz_przedmioty_z_zamowienia(self, id_zamowienia):
+        pass
+    def znajdz_zamowienia_z_przedmiotem(self, id_przedmiotu):
+        pass
+    def znajdz_klienta(self, id):
+        pass
+    def znajdz_przedmiot(self, id):
+        pass
+    def znajdz_zamowienie(self, id):
         pass
     def dodaj_klienta(self, id, imie, nazwisko, email):
         pass
