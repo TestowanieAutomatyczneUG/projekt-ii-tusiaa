@@ -47,4 +47,7 @@ class TestsZamowienie(unittest.TestCase):
         self.zamowienie.usun_przedmiot(id)
         mock_usun_przedmiot_z_zamowienia.assert_called_with(self.zamowienie.id, id)
 
+    def test_zamowienie_remove_item_not_found(self):
+        with self.assertRaises(ValueError):
+            self.zamowienie.usun_przedmiot(112)
 
