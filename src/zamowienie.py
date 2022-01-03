@@ -35,3 +35,12 @@ class Zamowienie:
         if przedmiot_id not in self.przedmioty:
             return False
         return True
+
+    def dane_klient(self):
+        return Baza_Danych().znajdz_klienta(self.klient_id)
+
+    def dane_przedmioty(self):
+        wynik = []
+        for przedmiot_id in self.przedmioty:
+            wynik.append(Baza_Danych().znajdz_przedmiot(przedmiot_id))
+        return wynik
