@@ -28,3 +28,10 @@ class Zamowienie:
             raise ValueError("Nie ma takiego przedmiotu")
         self.przedmioty.remove(przedmiot_id)
         Baza_Danych().usun_przedmiot_z_zamowienia(self.id, przedmiot_id)
+
+    def czy_jest_przedmiot(self, przedmiot_id: int):
+        if type(przedmiot_id) is not int:
+            raise ValueError("przedmiot_id nie jest liczba")
+        if przedmiot_id not in self.przedmioty:
+            return False
+        return True
