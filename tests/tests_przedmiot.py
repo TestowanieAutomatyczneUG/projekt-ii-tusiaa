@@ -22,6 +22,16 @@ class TestsPrzedmiot(unittest.TestCase):
         self.przedmiot.dodaj_do_bazy()
         assert_that(self.przedmiot.dodaj_do_bazy).raises(ValueError)
 
+    @patch.object(Baza_Danych, 'usun_przedmiot')
+    def test_przedmiot_delete_item_from_database(self, mock_usun_przedmiot):
+        self.przedmiot.usun_z_bazy()
+        mock_usun_przedmiot.assert_called_once_with(self.przedmiot.id)
+
+    @patch.object(Baza_Danych, 'usun_przedmiot', side_effect=[None, ValueError])
+    def test_przedmiot_delete_item_from_database_not_exists(self, mock_usun_przedmiot):
+        self.przedmiot.usun_z_bazy()
+        assert_that(self.przedmiot.usun_z_bazy).raises(ValueError)
+
     @patch.object(Baza_Danych, 'edytuj_przedmiot')
     def test_przedmiot_change_name(self, mock_edytuj_przedmiot):
         self.przedmiot.zmien_nazwe("Nowa nazwa")

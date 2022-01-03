@@ -15,6 +15,14 @@ class Baza_Danych:
         pass
     def dodaj_przedmiot_do_zamowienia(self, id_zamowienia, id_przedmiotu):
         pass
+    def usun_klienta(self, id):
+        pass
+    def usun_przedmiot(self, id):
+        pass
+    def usun_zamowienie(self, id):
+        pass
+    def usun_przedmiot_z_zamowienia(self, id_zamowienia, id_przedmiotu):
+        pass
     def edytuj_klienta(self, id, imie, nazwisko, email):
         pass
     def edytuj_przedmiot(self, id, nazwa, wartosc):
