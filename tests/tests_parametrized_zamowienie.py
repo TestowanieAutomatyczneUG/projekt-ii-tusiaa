@@ -28,3 +28,12 @@ class TestsParametrizedZamowienie(unittest.TestCase):
 
     def test_zamowienie_init_wrong_klient_id(self):
         assert_that(Zamowienie).raises(ValueError).when_called_with(self.zamowienie.id, self.int_wrong_value)
+
+    def test_zamowienie_add_item_wrong_id(self):
+        assert_that(self.zamowienie.dodaj_przedmiot).raises(ValueError).when_called_with(self.int_wrong_value)
+
+    def test_zamowienie_remove_item_wrong_id(self):
+        assert_that(self.zamowienie.usun_przedmiot).raises(ValueError).when_called_with(self.int_wrong_value)
+
+
+        
