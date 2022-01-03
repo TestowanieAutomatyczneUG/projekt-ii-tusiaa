@@ -14,4 +14,6 @@ class Przedmiot:
         self.nazwa = nazwa
         self.wartosc = float(wartosc)
 
+    def dodaj_do_bazy(self):
+        Baza_Danych.dodaj_przedmiot(self.id, self.nazwa, self.wartosc)
         
