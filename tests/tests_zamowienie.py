@@ -11,8 +11,9 @@ class TestsZamowienie(unittest.TestCase):
     def setUp(self, mock_czytaj_zamowienia, mock_znajdz_przedmioty_z_zamowienia, mock_znajdz_przedmiot):
         self.zamowienie = Zamowienie(mock_czytaj_zamowienia()[0][0], mock_czytaj_zamowienia()[0][1])
         przedmiot = mock_znajdz_przedmiot(mock_znajdz_przedmioty_z_zamowienia(mock_czytaj_zamowienia()[0][0])[0][1])
-        self.zamowienie.przedmioty.append(przedmiot[0], przedmiot[1], przedmiot[2])
+        self.zamowienie.przedmioty.append(Przedmiot(przedmiot[0], przedmiot[1], przedmiot[2]))
             
-        
+    def test_zamowienie_init(self):
+        assert_that(self.zamowienie).is_not_none()
 
 
