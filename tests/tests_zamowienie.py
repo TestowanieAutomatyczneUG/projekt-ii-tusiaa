@@ -16,14 +16,21 @@ class TestsZamowienie(unittest.TestCase):
     def test_zamowienie_init(self):
         assert_that(self.zamowienie).is_not_none()
 
-    def test_zamowienie_add_item(self):
+    @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(112, "Nazwa", 100.0))
+    def test_zamowienie_add_item(self, mock_znajdz_przedmiot):
         self.zamowienie.dodaj_przedmiot(112)
         assert_that(self.zamowienie.przedmioty).is_length(2)
 
+    @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(112, "Nazwa", 100.0))
     @patch.object(Baza_Danych, 'dodaj_przedmiot_do_zamowienia')
-    def test_zamowienie_add_item_database_check(self, mock_dodaj_przedmiot_do_zamowienia):
+    def test_zamowienie_add_item_database_check(self, mock_dodaj_przedmiot_do_zamowienia, mock_znajdz_przedmiot):
         self.zamowienie.dodaj_przedmiot(112)
         mock_dodaj_przedmiot_do_zamowienia.assert_called_with(self.zamowienie.id, 112)
+
+    @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=None)
+    def test_zamowienie_add_item_not_found(self, mock_znajdz_przedmiot):
+        with self.assertRaises(ValueError):
+            self.zamowienie.dodaj_przedmiot(112)
 
     def test_zamowienie_remove_item(self):
         self.zamowienie.usun_przedmiot(self.zamowienie.przedmioty[0])
