@@ -28,8 +28,13 @@ class TestsPrzedmiot(unittest.TestCase):
         mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, "Nowa nazwa", self.przedmiot.wartosc)
 
     @patch.object(Baza_Danych, 'edytuj_przedmiot')
-    def test_przedmiot_change_value(self, mock_edytuj_przedmiot):
-        self.przedmiot.zmien_wartosc(200.0)
-        mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, 200.0)
+    def test_przedmiot_change_value_float(self, mock_edytuj_przedmiot):
+        self.przedmiot.zmien_wartosc(200.99)
+        mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, 200.99)
+
+    @patch.object(Baza_Danych, 'edytuj_przedmiot')
+    def test_przedmiot_change_value_int(self, mock_edytuj_przedmiot):
+        self.przedmiot.zmien_wartosc(200)
+        mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, float(200))
     
 
