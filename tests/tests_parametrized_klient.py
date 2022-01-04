@@ -1,0 +1,37 @@
+import unittest
+from assertpy import *
+from parameterized import *
+from unittest.mock import *
+from src.klient import *
+
+@parameterized_class(('str_wrong_value', 'int_wrong_value', 'positive_float_wrong_value'), [
+    (1, "int", -5.0),
+    (1.5, 1.5, "float"),
+    (True, True, True),
+    (None, None, None),
+    ("", "", ""),
+    ([1,2,3], [1,2,3], [1,2,3]),
+    ({'name': 2, 'grades': 4}, {'name': 2, 'grades': 4}, {'name': 2, 'grades': 4}),
+])
+class TestsParametrizedKlient(unittest.TestCase):
+
+    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'znajdz_zamowienia_klienta', return_value=[(1, 11)])
+    def setUp(self, mock_znajdz_zamowienia_klienta, mock_czytaj_klientow):
+        self.klient = Klient(mock_czytaj_klientow()[0][0], mock_czytaj_klientow()[0][1], mock_czytaj_klientow()[0][2], mock_czytaj_klientow()[0][3])
+        zamowienie = mock_znajdz_zamowienia_klienta(mock_czytaj_klientow()[0][0])[0]
+        self.klient.zamowienia.append(zamowienie[0])
+
+    def test_klient_init_wrong_id(self):\
+        assert_that(Klient).raises(ValueError).when_called_with(self.int_wrong_value, self.klient.imie, self.klient.nazwisko, self.klient.email)
+
+    def test_klient_init_wrong_imie(self):
+        assert_that(Klient).raises(ValueError).when_called_with(self.klient.id, self.str_wrong_value, self.klient.nazwisko, self.klient.email)
+
+    def test_klient_init_wrong_nazwisko(self):
+        assert_that(Klient).raises(ValueError).when_called_with(self.klient.id, self.klient.imie, self.str_wrong_value, self.klient.email)
+
+    def test_klient_init_wrong_email(self):
+        assert_that(Klient).raises(ValueError).when_called_with(self.klient.id, self.klient.imie, self.klient.nazwisko, self.str_wrong_value)
+        
+

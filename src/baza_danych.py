@@ -17,6 +17,8 @@ class Baza_Danych:
         pass
     def znajdz_zamowienie(self, id):
         pass
+    def znajdz_zamowienia_klienta(self, id_klienta):
+        pass
     def dodaj_klienta(self, id, imie, nazwisko, email):
         pass
     def dodaj_przedmiot(self, id, nazwa, wartosc):

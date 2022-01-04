@@ -1,4 +1,5 @@
 from src.baza_danych import Baza_Danych
+from src.zamowienie import Zamowienie
 
 class Klient:
     def __init__(self, id, imie, nazwisko, email):
