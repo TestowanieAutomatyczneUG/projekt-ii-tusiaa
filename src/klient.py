@@ -31,3 +31,21 @@ class Klient:
         self.zamowienia.remove(id)
         Baza_Danych().usun_zamowienie(id)
 
+    def zmien_imie(self, imie):
+        if type(imie) is not str or not imie:
+            raise ValueError("imie nie jest stringiem")
+        self.imie = imie
+        Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
+
+    def zmien_nazwisko(self, nazwisko):
+        if type(nazwisko) is not str or not nazwisko:
+            raise ValueError("nazwisko nie jest stringiem")
+        self.nazwisko = nazwisko
+        Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
+
+    def zmien_email(self, email):
+        if type(email) is not str or not email:
+            raise ValueError("email nie jest stringiem")
+        self.email = email
+        Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
+
