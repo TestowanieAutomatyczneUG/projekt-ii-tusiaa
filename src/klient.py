@@ -49,3 +49,14 @@ class Klient:
         self.email = email
         Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
 
+    def dane_zamowienia(self):
+        wynik = []
+        for zamowienie in self.zamowienia:
+            przedmioty = []
+            id = Baza_Danych().znajdz_przedmioty_z_zamowienia(zamowienie)
+            for przedmiot in id:
+                przedmioty.append(Baza_Danych().znajdz_przedmiot(przedmiot[1]))
+            wynik.append(przedmioty)
+        return wynik
+
+        
