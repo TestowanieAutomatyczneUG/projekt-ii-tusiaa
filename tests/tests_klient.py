@@ -63,8 +63,13 @@ class TestsKlient(unittest.TestCase):
         self.klient.zmien_email("test.email")
         mock_edytuj_klienta.assert_called_with(self.klient.id, self.klient.imie, self.klient.nazwisko, "test.email")
 
-    @patch.object(Baza_Danych, 'znajdz_zamowienie', return_value=[(1, 11)])
+    @patch.object(Baza_Danych, 'znajdz_przedmioty_z_zamowienia', return_value=[(1, 111), (1, 222)])
     @patch.object(Baza_Danych, 'znajdz_przedmiot', side_effect=[(111, "Nazwa", 100.0), (222, "Nazwa2", 200.0)])
     def test_klient_get_orders(self, mock_znajdz_przedmiot, mock_znajdz_zamowienie):
         assert_that(self.klient.dane_zamowienia()).contains([(111, "Nazwa", 100.0), (222, "Nazwa2", 200.0)])
         
+    @patch.object(Baza_Danych, 'znajdz_przedmioty_z_zamowienia', return_value=[(1, 111), (1, 222)])
+    @patch.object(Baza_Danych, 'znajdz_przedmiot', side_effect=[(111, "Nazwa", 100.0), (222, "Nazwa2", 200.0)])
+    def test_klient_get_orders_database_check(self, mock_znajdz_przedmiot, mock_znajdz_zamowienie):
+        self.klient.dane_zamowienia()
+        mock_znajdz_zamowienie.assert_called_with(1)
