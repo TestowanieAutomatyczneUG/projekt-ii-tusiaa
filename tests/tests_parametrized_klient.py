@@ -40,3 +40,12 @@ class TestsParametrizedKlient(unittest.TestCase):
     def test_klient_remove_order_wrong_id(self):
         assert_that(self.klient.usun_zamowienie).raises(ValueError).when_called_with(self.int_wrong_value)
 
+    def test_klient_change_name_wrong_name(self):
+        assert_that(self.klient.zmien_imie).raises(ValueError).when_called_with(self.str_wrong_value)
+
+    def test_klient_change_surname_wrong_surname(self):
+        assert_that(self.klient.zmien_nazwisko).raises(ValueError).when_called_with(self.str_wrong_value)
+
+    def test_klient_change_email_wrong_email(self):
+        assert_that(self.klient.zmien_email).raises(ValueError).when_called_with(self.str_wrong_value)
+
