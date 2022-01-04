@@ -31,7 +31,7 @@ class TestsKlient(unittest.TestCase):
     @patch.object(Baza_Danych, 'usun_zamowienie')
     def test_klient_remove_order_database_check(self, mock_usun_zamowienie):
         self.klient.usun_zamowienie(1)
-        mock_usun_zamowienie.assert_called_with(1, self.klient.id)
+        mock_usun_zamowienie.assert_called_with(1)
 
     def test_klient_remove_order_not_found(self):
         assert_that(self.klient.usun_zamowienie).raises(ValueError).when_called_with(2)

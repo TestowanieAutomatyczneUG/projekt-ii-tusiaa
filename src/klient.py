@@ -16,3 +16,18 @@ class Klient:
         self.nazwisko = nazwisko
         self.email = email
         self.zamowienia = []
+
+    def dodaj_zamowienie(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        self.zamowienia.append(id)
+        Baza_Danych().dodaj_zamowienie(id, self.id)
+
+    def usun_zamowienie(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        if id not in self.zamowienia:
+            raise ValueError("Nie ma takiego zamowienia")
+        self.zamowienia.remove(id)
+        Baza_Danych().usun_zamowienie(id)
+
