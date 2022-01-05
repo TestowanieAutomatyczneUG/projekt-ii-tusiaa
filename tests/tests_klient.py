@@ -73,3 +73,6 @@ class TestsKlient(unittest.TestCase):
     def test_klient_get_orders_database_check(self, mock_znajdz_przedmiot, mock_znajdz_zamowienie):
         self.klient.dane_zamowienia()
         mock_znajdz_zamowienie.assert_called_with(1)
+
+    def tearDown(self):
+        del self.klient

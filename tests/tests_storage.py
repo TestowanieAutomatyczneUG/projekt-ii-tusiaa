@@ -18,3 +18,12 @@ class TestsStorage(unittest.TestCase):
 
     def test_storage_init(self):
         assert_that(self.storage).is_not_none()
+
+
+
+
+
+
+
+    def tearDown(self):
+        del self.storage

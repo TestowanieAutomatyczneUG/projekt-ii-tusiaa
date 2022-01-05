@@ -26,3 +26,13 @@ class TestsParametrizedStorage(unittest.TestCase):
         self.storage.zamowienia.append(mock_czytaj_zamowienia()[0])
         self.storage.przedmioty.append(mock_czytaj_przedmioty()[0])
         self.storage.przedmioty_w_zamowieniach.append(mock_czytaj_przedmioty_z_zamowien()[0])
+
+
+
+
+
+
+
+
+    def tearDown(self):
+        del self.storage
