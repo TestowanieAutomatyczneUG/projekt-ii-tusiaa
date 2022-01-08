@@ -27,3 +27,22 @@ class Storage:
             if klient.id == id:
                 self.klienci.remove(klient)
         Baza_Danych().usun_klienta(id)
+
+    def dane_klienci(self):
+        wynik = []
+        for klient in self.klienci:
+            wynik.append((klient.id, klient.imie, klient.nazwisko, klient.email))
+        print(wynik)
+        return wynik
+
+    def dane_zamowienia(self):
+        wynik = []
+        for zamowienie in self.zamowienia:
+            wynik.append((zamowienie.id, zamowienie.klient_id))
+        return wynik
+
+    def dane_przedmioty(self):
+        wynik = []
+        for przedmiot in self.przedmioty:
+            wynik.append((przedmiot.id, przedmiot.nazwa, przedmiot.wartosc))
+        return wynik
