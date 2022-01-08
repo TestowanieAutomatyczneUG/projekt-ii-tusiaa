@@ -20,6 +20,8 @@ class Klient:
     def dodaj_zamowienie(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
+        if Baza_Danych().znajdz_zamowienie(id):
+            raise ValueError("Zamowienie juz istnieje")
         self.zamowienia.append(id)
         Baza_Danych().dodaj_zamowienie(id, self.id)
 

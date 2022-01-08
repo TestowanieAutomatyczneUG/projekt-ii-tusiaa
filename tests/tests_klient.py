@@ -15,14 +15,20 @@ class TestsKlient(unittest.TestCase):
     def test_klient_init(self):
         assert_that(self.klient).is_not_none()
 
-    def test_klient_add_order(self):
+    @patch.object(Baza_Danych, 'znajdz_zamowienie', return_value=None)
+    def test_klient_add_order(self, mock_znajdz_zamowienie):
         self.klient.dodaj_zamowienie(2)
         assert_that(self.klient.zamowienia).contains(2)
 
+    @patch.object(Baza_Danych, 'znajdz_zamowienie', return_value=None)
     @patch.object(Baza_Danych, 'dodaj_zamowienie')
-    def test_klient_add_order_database_check(self, mock_dodaj_zamowienie):
+    def test_klient_add_order_database_check(self, mock_dodaj_zamowienie, mock_znajdz_zamowienie):
         self.klient.dodaj_zamowienie(2)
         mock_dodaj_zamowienie.assert_called_with(2, self.klient.id)
+
+    @patch.object(Baza_Danych, 'znajdz_zamowienie', return_value=(1, 11))
+    def test_klient_add_order_already_exists(self, mock_znajdz_zamowienie):
+        assert_that(self.klient.dodaj_zamowienie).raises(ValueError).when_called_with(1)
 
     def test_klient_remove_order(self):
         self.klient.usun_zamowienie(1)
