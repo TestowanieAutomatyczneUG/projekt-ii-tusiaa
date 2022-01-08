@@ -17,3 +17,13 @@ class Storage:
             raise ValueError("Klient juz istnieje")
         self.klienci.append(klient)
         Baza_Danych().dodaj_klienta(klient.id, klient.imie, klient.nazwisko, klient.email)
+
+    def usun_klienta(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        if not Baza_Danych().znajdz_klienta(id):
+            raise ValueError("Nie ma takiego klienta")
+        for klient in self.klienci:
+            if klient.id == id:
+                self.klienci.remove(klient)
+        Baza_Danych().usun_klienta(id)
