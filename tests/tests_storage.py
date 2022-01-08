@@ -62,6 +62,11 @@ class TestsStorage(unittest.TestCase):
     def test_storage_get_items(self):
         assert_that(self.storage.dane_przedmioty()).contains((self.storage.przedmioty[0].id, self.storage.przedmioty[0].nazwa, self.storage.przedmioty[0].wartosc))
 
+    def test_storage_find_client(self):
+        assert_that(self.storage.znajdz_klienta(self.storage.klienci[0].id)).is_instance_of(Klient)
+
+    def test_storage_find_client_not_found(self):
+        assert_that(self.storage.znajdz_klienta(12)).is_none()
 
 
     def tearDown(self):

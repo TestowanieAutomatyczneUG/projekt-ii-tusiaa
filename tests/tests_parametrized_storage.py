@@ -34,7 +34,8 @@ class TestsParametrizedStorage(unittest.TestCase):
     def test_storage_remove_client_wrong(self):
         assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
 
-
+    def test_storage_find_client_wrong(self):
+        assert_that(self.storage.znajdz_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
 
 
 
