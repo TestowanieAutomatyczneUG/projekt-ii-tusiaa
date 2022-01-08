@@ -53,7 +53,14 @@ class TestsStorage(unittest.TestCase):
     def test_storage_remove_client_not_found(self, mock_znajdz_klienta):
         assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(12)
 
+    def test_storage_get_clients(self):
+        assert_that(self.storage.dane_klienci).contains((self.storage.klienci[0].id, self.storage.klienci[0].imie, self.storage.klienci[0].nazwisko, self.storage.klienci[0].email))
 
+    def test_storage_get_orders(self):
+        assert_that(self.storage.dane_zamowienia).contains((self.storage.zamowienia[0].id, self.storage.zamowienia[0].klient_id))
+
+    def test_storage_get_items(self):
+        assert_that(self.storage.dane_przedmioty).contains((self.storage.przedmioty[0].id, self.storage.przedmioty[0].nazwa, self.storage.przedmioty[0].cena))
 
 
 
