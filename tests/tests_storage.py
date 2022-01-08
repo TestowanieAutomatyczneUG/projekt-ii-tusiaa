@@ -68,6 +68,17 @@ class TestsStorage(unittest.TestCase):
     def test_storage_find_client_not_found(self):
         assert_that(self.storage.znajdz_klienta(12)).is_none()
 
+    def test_storage_find_order(self):
+        assert_that(self.storage.znajdz_zamowienie(self.storage.zamowienia[0].id)).is_instance_of(Zamowienie)
+
+    def test_storage_find_order_not_found(self):
+        assert_that(self.storage.znajdz_zamowienie(2)).is_none()
+
+    def test_storage_find_item(self):
+        assert_that(self.storage.znajdz_przedmiot(self.storage.przedmioty[0].id)).is_instance_of(Przedmiot)
+
+    def test_storage_find_item_not_found(self):
+        assert_that(self.storage.znajdz_przedmiot(112)).is_none()
 
     def tearDown(self):
         del self.storage
