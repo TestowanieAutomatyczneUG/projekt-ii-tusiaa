@@ -10,6 +10,14 @@ class Storage:
         self.zamowienia = []
         self.przedmioty_w_zamowieniach = []
 
+    def znajdz_klienta(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for klient in self.klienci:
+            if klient.id == id:
+                return klient
+        return None
+
     def dodaj_klienta(self, klient: Klient):
         if type(klient) is not Klient:
             raise ValueError("klient nie jest obiektem klasy Klient")
@@ -23,16 +31,13 @@ class Storage:
             raise ValueError("id nie jest liczba")
         if not Baza_Danych().znajdz_klienta(id):
             raise ValueError("Nie ma takiego klienta")
-        for klient in self.klienci:
-            if klient.id == id:
-                self.klienci.remove(klient)
+        self.klienci.remove(self.znajdz_klienta(id))
         Baza_Danych().usun_klienta(id)
 
     def dane_klienci(self):
         wynik = []
         for klient in self.klienci:
             wynik.append((klient.id, klient.imie, klient.nazwisko, klient.email))
-        print(wynik)
         return wynik
 
     def dane_zamowienia(self):
