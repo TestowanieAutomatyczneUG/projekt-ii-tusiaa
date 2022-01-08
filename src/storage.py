@@ -18,6 +18,22 @@ class Storage:
                 return klient
         return None
 
+    def znajdz_przedmiot(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for przedmiot in self.przedmioty:
+            if przedmiot.id == id:
+                return przedmiot
+        return None
+
+    def znajdz_zamowienie(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for zamowienie in self.zamowienia:
+            if zamowienie.id == id:
+                return zamowienie
+        return None
+
     def dodaj_klienta(self, klient: Klient):
         if type(klient) is not Klient:
             raise ValueError("klient nie jest obiektem klasy Klient")
