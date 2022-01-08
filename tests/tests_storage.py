@@ -53,6 +53,20 @@ class TestsStorage(unittest.TestCase):
     def test_storage_add_order_already_exists(self):
         assert_that(self.storage.dodaj_zamowienie).raises(ValueError).when_called_with(self.storage.zamowienia[0].id)
 
+    def test_storage_add_item(self):
+        przedmiot = Przedmiot(12, "Nazwa", 100.0)
+        self.storage.dodaj_przedmiot(przedmiot)
+        assert_that(self.storage.przedmioty).contains(przedmiot)
+
+    @patch.object(Baza_Danych, 'dodaj_przedmiot')
+    def test_storage_add_item_database_check(self, mock_dodaj_przedmiot):
+        przedmiot = Przedmiot(12, "Nazwa", 100.0)
+        self.storage.dodaj_przedmiot(przedmiot)
+        mock_dodaj_przedmiot.assert_called_once_with(przedmiot.id, przedmiot.nazwa, przedmiot.cena)
+
+    def test_storage_add_item_already_exists(self):
+        assert_that(self.storage.dodaj_przedmiot).raises(ValueError).when_called_with(self.storage.przedmioty[0].id)
+
     @patch.object(Baza_Danych, 'usun_klienta')
     def test_storage_remove_client(self, mock_usun_klienta):
         self.storage.usun_klienta(self.storage.klienci[0].id)
