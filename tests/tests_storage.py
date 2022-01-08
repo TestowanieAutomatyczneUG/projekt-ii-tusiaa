@@ -81,6 +81,34 @@ class TestsStorage(unittest.TestCase):
     def test_storage_remove_client_not_found(self):
         assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(12)
 
+    @patch.object(Baza_Danych, 'usun_zamowienie')
+    def test_storage_remove_order(self, mock_usun_zamowienie):
+        self.storage.usun_zamowienie(self.storage.zamowienia[0].id)
+        assert_that(self.storage.zamowienia).is_empty()
+
+    @patch.object(Baza_Danych, 'usun_zamowienie')
+    def test_storage_remove_order_database_check(self, mock_usun_zamowienie):
+        id = self.storage.zamowienia[0].id
+        self.storage.usun_zamowienie(id)
+        mock_usun_zamowienie.assert_called_once_with(id)
+
+    def test_storage_remove_order_not_found(self):
+        assert_that(self.storage.usun_zamowienie).raises(ValueError).when_called_with(12)
+
+    @patch.object(Baza_Danych, 'usun_przedmiot')
+    def test_storage_remove_item(self, mock_usun_przedmiot):
+        self.storage.usun_przedmiot(self.storage.przedmioty[0].id)
+        assert_that(self.storage.przedmioty).is_empty()
+
+    @patch.object(Baza_Danych, 'usun_przedmiot')
+    def test_storage_remove_item_database_check(self, mock_usun_przedmiot):
+        id = self.storage.przedmioty[0].id
+        self.storage.usun_przedmiot(id)
+        mock_usun_przedmiot.assert_called_once_with(id)
+
+    def test_storage_remove_item_not_found(self):
+        assert_that(self.storage.usun_przedmiot).raises(ValueError).when_called_with(12)
+
     def test_storage_get_clients(self):
         assert_that(self.storage.dane_klienci()).contains((self.storage.klienci[0].id, self.storage.klienci[0].imie, self.storage.klienci[0].nazwisko, self.storage.klienci[0].email))
 
