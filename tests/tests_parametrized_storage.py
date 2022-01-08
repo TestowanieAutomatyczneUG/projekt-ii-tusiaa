@@ -16,7 +16,7 @@ from src.storage import *
 ])
 class TestsParametrizedStorage(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
     @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
     @patch.object(Baza_Danych, 'czytaj_przedmioty_z_zamowien', return_value=[(1, 111)])
@@ -28,8 +28,11 @@ class TestsParametrizedStorage(unittest.TestCase):
         self.storage.przedmioty.append(Przedmiot(mock_czytaj_przedmioty()[0][0], mock_czytaj_przedmioty()[0][1], mock_czytaj_przedmioty()[0][2]))
         self.storage.przedmioty_w_zamowieniach.append(mock_czytaj_przedmioty_z_zamowien()[0])
 
-    def test_storage_add_client(self):
+    def test_storage_add_client_wrong(self):
         assert_that(self.storage.dodaj_klienta).raises(ValueError).when_called_with(self.class_wrong_value)
+
+    def test_storage_remove_client_wrong(self):
+        assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
 
 
 

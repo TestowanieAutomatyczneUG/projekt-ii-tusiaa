@@ -5,7 +5,7 @@ from src.storage import *
 
 class TestsStorage(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
     @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
     @patch.object(Baza_Danych, 'czytaj_przedmioty_z_zamowien', return_value=[(1, 111)])
@@ -35,7 +35,21 @@ class TestsStorage(unittest.TestCase):
     @patch.object(Baza_Danych, 'dodaj_klienta')
     def test_storage_add_client_already_exists(self, mock_dodaj_klienta):
         assert_that(self.storage.dodaj_klienta).raises(ValueError).when_called_with(self.storage.klienci[0].id)
+
+    @patch.object(Baza_Danych, 'usun_klienta')
+    def test_storage_remove_client(self, mock_usun_klienta):
+        self.storage.usun_klienta(self.storage.klienci[0].id)
+        assert_that(self.storage.klienci).is_empty()
+
+    @patch.object(Baza_Danych, 'usun_klienta')
+    def test_storage_remove_client_database_check(self, mock_usun_klienta):
+        id = self.storage.klienci[0].id
+        self.storage.usun_klienta(id)
+        mock_usun_klienta.assert_called_once_with(id)
         
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=None)
+    def test_storage_remove_client_not_found(self, mock_znajdz_klienta):
+        assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(12)
 
 
 
