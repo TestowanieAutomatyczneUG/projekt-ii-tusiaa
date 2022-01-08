@@ -50,28 +50,21 @@ class TestsStorage(unittest.TestCase):
         self.storage.dodaj_zamowienie(zamowienie)
         mock_dodaj_zamowienie.assert_called_once_with(zamowienie.id, zamowienie.klient_id)
 
-    def test_storage_add_order_already_exists(self, mock_dodaj_zamowienie):
+    def test_storage_add_order_already_exists(self):
         assert_that(self.storage.dodaj_zamowienie).raises(ValueError).when_called_with(self.storage.zamowienia[0].id)
 
-    @patch.object(Baza_Danych, 'dodaj_zamowienie')
-    def test_storage_add_order_client_not_found(self, mock_dodaj_zamowienie):
-        assert_that(self.storage.dodaj_zamowienie).raises(ValueError).when_called_with(Zamowienie(2, 12))
-
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'usun_klienta')
-    def test_storage_remove_client(self, mock_usun_klienta, mock_znajdz_klienta):
+    def test_storage_remove_client(self, mock_usun_klienta):
         self.storage.usun_klienta(self.storage.klienci[0].id)
         assert_that(self.storage.klienci).is_empty()
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'usun_klienta')
-    def test_storage_remove_client_database_check(self, mock_usun_klienta, mock_znajdz_klienta):
+    def test_storage_remove_client_database_check(self, mock_usun_klienta):
         id = self.storage.klienci[0].id
         self.storage.usun_klienta(id)
         mock_usun_klienta.assert_called_once_with(id)
         
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=None)
-    def test_storage_remove_client_not_found(self, mock_znajdz_klienta):
+    def test_storage_remove_client_not_found(self):
         assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(12)
 
     def test_storage_get_clients(self):

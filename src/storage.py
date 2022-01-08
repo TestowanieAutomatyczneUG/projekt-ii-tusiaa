@@ -37,15 +37,23 @@ class Storage:
     def dodaj_klienta(self, klient: Klient):
         if type(klient) is not Klient:
             raise ValueError("klient nie jest obiektem klasy Klient")
-        if Baza_Danych().znajdz_klienta(klient.id):
+        if self.znajdz_klienta(klient.id):
             raise ValueError("Klient juz istnieje")
         self.klienci.append(klient)
         Baza_Danych().dodaj_klienta(klient.id, klient.imie, klient.nazwisko, klient.email)
 
+    def dodaj_zamowienie(self, zamowienie: Zamowienie):
+        if type(zamowienie) is not Zamowienie:
+            raise ValueError("zamowienie nie jest obiektem klasy Zamowienie")
+        if self.znajdz_zamowienie(zamowienie.id):
+            raise ValueError("Zamowienie juz istnieje")
+        self.zamowienia.append(zamowienie)
+        Baza_Danych().dodaj_zamowienie(zamowienie.id, zamowienie.klient_id)
+
     def usun_klienta(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
-        if not Baza_Danych().znajdz_klienta(id):
+        if not self.znajdz_klienta(id):
             raise ValueError("Nie ma takiego klienta")
         self.klienci.remove(self.znajdz_klienta(id))
         Baza_Danych().usun_klienta(id)
