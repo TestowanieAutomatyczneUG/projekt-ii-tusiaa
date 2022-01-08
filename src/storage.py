@@ -66,6 +66,22 @@ class Storage:
         self.klienci.remove(self.znajdz_klienta(id))
         Baza_Danych().usun_klienta(id)
 
+    def usun_zamowienie(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        if not self.znajdz_zamowienie(id):
+            raise ValueError("Nie ma takiego zamowienia")
+        self.zamowienia.remove(self.znajdz_zamowienie(id))
+        Baza_Danych().usun_zamowienie(id)
+
+    def usun_przedmiot(self, id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        if not self.znajdz_przedmiot(id):
+            raise ValueError("Nie ma takiego przedmiotu")
+        self.przedmioty.remove(self.znajdz_przedmiot(id))
+        Baza_Danych().usun_przedmiot(id)
+
     def dane_klienci(self):
         wynik = []
         for klient in self.klienci:
