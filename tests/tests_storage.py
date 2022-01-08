@@ -31,6 +31,10 @@ class TestsStorage(unittest.TestCase):
         klient = Klient(12, "Jan", "Kowalski", "mail")
         self.storage.dodaj_klienta(klient)
         mock_dodaj_klienta.assert_called_once_with(klient.id, klient.imie, klient.nazwisko, klient.email)
+
+    @patch.object(Baza_Danych, 'dodaj_klienta')
+    def test_storage_add_client_already_exists(self, mock_dodaj_klienta):
+        assert_that(self.storage.dodaj_klienta).raises(ValueError).when_called_with(self.storage.klienci[0])
         
 
 
