@@ -31,6 +31,9 @@ class TestsParametrizedStorage(unittest.TestCase):
     def test_storage_add_client_wrong(self):
         assert_that(self.storage.dodaj_klienta).raises(ValueError).when_called_with(self.class_wrong_value)
 
+    def test_storage_add_order_wrong(self):
+        assert_that(self.storage.dodaj_zamowienie).raises(ValueError).when_called_with(self.class_wrong_value)
+
     def test_storage_remove_client_wrong(self):
         assert_that(self.storage.usun_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
 

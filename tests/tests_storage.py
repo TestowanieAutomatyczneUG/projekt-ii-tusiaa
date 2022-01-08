@@ -37,6 +37,27 @@ class TestsStorage(unittest.TestCase):
         assert_that(self.storage.dodaj_klienta).raises(ValueError).when_called_with(self.storage.klienci[0].id)
 
     @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
+    @patch.object(Baza_Danych, 'dodaj_zamowienie')
+    def test_storage_add_order(self, mock_dodaj_zamowienie, mock_znajdz_klienta):
+        zamowienie = Zamowienie(2, 11)
+        self.storage.dodaj_zamowienie(zamowienie)
+        assert_that(self.storage.zamowienia).contains(zamowienie)
+
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
+    @patch.object(Baza_Danych, 'dodaj_zamowienie')
+    def test_storage_add_order_database_check(self, mock_dodaj_zamowienie, mock_znajdz_klienta):
+        zamowienie = Zamowienie(2, 11)
+        self.storage.dodaj_zamowienie(zamowienie)
+        mock_dodaj_zamowienie.assert_called_once_with(zamowienie.id, zamowienie.klient_id)
+
+    def test_storage_add_order_already_exists(self, mock_dodaj_zamowienie):
+        assert_that(self.storage.dodaj_zamowienie).raises(ValueError).when_called_with(self.storage.zamowienia[0].id)
+
+    @patch.object(Baza_Danych, 'dodaj_zamowienie')
+    def test_storage_add_order_client_not_found(self, mock_dodaj_zamowienie):
+        assert_that(self.storage.dodaj_zamowienie).raises(ValueError).when_called_with(Zamowienie(2, 12))
+
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'usun_klienta')
     def test_storage_remove_client(self, mock_usun_klienta, mock_znajdz_klienta):
         self.storage.usun_klienta(self.storage.klienci[0].id)
