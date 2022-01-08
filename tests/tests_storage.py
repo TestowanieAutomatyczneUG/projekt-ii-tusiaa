@@ -62,7 +62,7 @@ class TestsStorage(unittest.TestCase):
     def test_storage_add_item_database_check(self, mock_dodaj_przedmiot):
         przedmiot = Przedmiot(12, "Nazwa", 100.0)
         self.storage.dodaj_przedmiot(przedmiot)
-        mock_dodaj_przedmiot.assert_called_once_with(przedmiot.id, przedmiot.nazwa, przedmiot.cena)
+        mock_dodaj_przedmiot.assert_called_once_with(przedmiot.id, przedmiot.nazwa, przedmiot.wartosc)
 
     def test_storage_add_item_already_exists(self):
         assert_that(self.storage.dodaj_przedmiot).raises(ValueError).when_called_with(self.storage.przedmioty[0].id)

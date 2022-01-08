@@ -50,6 +50,14 @@ class Storage:
         self.zamowienia.append(zamowienie)
         Baza_Danych().dodaj_zamowienie(zamowienie.id, zamowienie.klient_id)
 
+    def dodaj_przedmiot(self, przedmiot: Przedmiot):
+        if type(przedmiot) is not Przedmiot:
+            raise ValueError("przedmiot nie jest obiektem klasy Przedmiot")
+        if self.znajdz_przedmiot(przedmiot.id):
+            raise ValueError("Przedmiot juz istnieje")
+        self.przedmioty.append(przedmiot)
+        Baza_Danych().dodaj_przedmiot(przedmiot.id, przedmiot.nazwa, przedmiot.wartosc)
+
     def usun_klienta(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
