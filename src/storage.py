@@ -99,3 +99,29 @@ class Storage:
         for przedmiot in self.przedmioty:
             wynik.append((przedmiot.id, przedmiot.nazwa, przedmiot.wartosc))
         return wynik
+
+    def importuj_z_bazy(self):
+        klienci = Baza_Danych().czytaj_klientow()
+        przedmioty = Baza_Danych().czytaj_przedmioty()
+        zamowienia = Baza_Danych().czytaj_zamowienia()
+        relacje = Baza_Danych().czytaj_przedmioty_z_zamowien()
+
+        for przedmiot in przedmioty:
+            self.przedmioty.append(Przedmiot(przedmiot[0], przedmiot[1], przedmiot[2]))
+
+        for klient in klienci:
+            self.klienci.append(Klient(klient[0], klient[1], klient[2], klient[3]))
+
+        for zamowienie in zamowienia:
+            self.zamowienia.append(Zamowienie(zamowienie[0], zamowienie[1]))
+
+        for relacja in relacje:
+            self.przedmioty_w_zamowieniach.append(relacja)
+
+        for klient in klienci:
+            for zamowienie in zamowienia:
+                if zamowienie[1] == klient[0]:
+                    self.znajdz_klienta(klient[0]).dodaj_zamowienie(zamowienie[0])
+                    for przedmiot in relacje:
+                        if przedmiot[1] == zamowienie[0]:
+                            self.znajdz_zamowienie(zamowienie[0]).dodaj_przedmiot(przedmiot[0])
