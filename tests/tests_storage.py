@@ -136,5 +136,39 @@ class TestsStorage(unittest.TestCase):
     def test_storage_find_item_not_found(self):
         assert_that(self.storage.znajdz_przedmiot(112)).is_none()
 
+    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty_z_zamowien', return_value=[(1, 111)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty', return_value=[(111, "Nazwa", 100.0)])
+    def test_storage_import_from_database_client_check(self, mock_czytaj_przedmioty, mock_czytaj_przedmioty_z_zamowien, mock_czytaj_zamowienia, mock_czytaj_klientow):
+        self.storage.importuj_z_bazy()
+        mock_czytaj_klientow.assert_called_once()
+
+    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty_z_zamowien', return_value=[(1, 111)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty', return_value=[(111, "Nazwa", 100.0)])
+    def test_storage_import_from_database_zamowienia_check(self, mock_czytaj_przedmioty, mock_czytaj_przedmioty_z_zamowien, mock_czytaj_zamowienia, mock_czytaj_klientow):
+        self.storage.importuj_z_bazy()
+        mock_czytaj_zamowienia.assert_called_once()
+
+    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty_z_zamowien', return_value=[(1, 111)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty', return_value=[(111, "Nazwa", 100.0)])
+    def test_storage_import_from_database_item_check(self, mock_czytaj_przedmioty, mock_czytaj_przedmioty_z_zamowien, mock_czytaj_zamowienia, mock_czytaj_klientow):
+        self.storage.importuj_z_bazy()
+        mock_czytaj_przedmioty.assert_called_once()
+
+    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
+    @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty_z_zamowien', return_value=[(1, 111)])
+    @patch.object(Baza_Danych, 'czytaj_przedmioty', return_value=[(111, "Nazwa", 100.0)])
+    def test_storage_import_from_database_relations_check(self, mock_czytaj_przedmioty, mock_czytaj_przedmioty_z_zamowien, mock_czytaj_zamowienia, mock_czytaj_klientow):
+        self.storage.importuj_z_bazy()
+        mock_czytaj_przedmioty_z_zamowien.assert_called_once()
+
+        
+
     def tearDown(self):
         del self.storage
