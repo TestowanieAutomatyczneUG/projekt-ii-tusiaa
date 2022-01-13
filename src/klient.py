@@ -1,7 +1,8 @@
+from src.storage.order_storage import Order_Storage
 from src.baza_danych import Baza_Danych
-from src.zamowienie import Zamowienie
 
 class Klient:
+
     def __init__(self, id, imie, nazwisko, email):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
@@ -16,14 +17,16 @@ class Klient:
         self.nazwisko = nazwisko
         self.email = email
         self.zamowienia = []
+        Klient.klienci.append(self)
 
     def dodaj_zamowienie(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
-        if Baza_Danych().znajdz_zamowienie(id):
+        if Order_Storage.znajdz_zamowienie(id):
             raise ValueError("Zamowienie juz istnieje")
         self.zamowienia.append(id)
-        Baza_Danych().dodaj_zamowienie(id, self.id)
+        Order_Storage.dodaj_zamowienie(id, self.id)
+        
 
     def usun_zamowienie(self, id):
         if type(id) is not int:
@@ -31,7 +34,7 @@ class Klient:
         if id not in self.zamowienia:
             raise ValueError("Nie ma takiego zamowienia")
         self.zamowienia.remove(id)
-        Baza_Danych().usun_zamowienie(id)
+        Order_Storage.usun_zamowienie(id)
 
     def zmien_imie(self, imie):
         if type(imie) is not str or not imie:

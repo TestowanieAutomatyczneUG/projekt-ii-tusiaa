@@ -1,5 +1,6 @@
 from src.baza_danych import Baza_Danych
-from src.przedmiot import Przedmiot
+from src.storage.item_storage import *
+from src.storage.client_storage import *
 
 class Zamowienie:
     def __init__(self, id: int, klient_id: int):
@@ -16,7 +17,7 @@ class Zamowienie:
     def dodaj_przedmiot(self, przedmiot_id: int):
         if type(przedmiot_id) is not int:
             raise ValueError("przedmiot_id nie jest liczba")
-        if not Baza_Danych.znajdz_przedmiot(przedmiot_id):
+        if not Item_Storage.znajdz_przedmiot(przedmiot_id):
             raise ValueError("Nie ma takiego przedmiotu")
         self.przedmioty.append(przedmiot_id)
         Baza_Danych().dodaj_przedmiot_do_zamowienia(self.id, przedmiot_id)
@@ -37,10 +38,10 @@ class Zamowienie:
         return True
 
     def dane_klient(self):
-        return Baza_Danych().znajdz_klienta(self.klient_id)
+        return Client_Storage.znajdz_klienta(self.klient_id)
 
     def dane_przedmioty(self):
         wynik = []
         for przedmiot_id in self.przedmioty:
-            wynik.append(Baza_Danych().znajdz_przedmiot(przedmiot_id))
+            wynik.append(Item_Storage.znajdz_przedmiot(przedmiot_id))
         return wynik
