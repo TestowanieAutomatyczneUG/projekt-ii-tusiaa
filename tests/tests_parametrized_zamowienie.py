@@ -39,5 +39,4 @@ class TestsParametrizedZamowienie(unittest.TestCase):
     def test_zamowienie_check_if_item_in_order_wrong_id(self):
         assert_that(self.zamowienie.czy_jest_przedmiot).raises(ValueError).when_called_with(self.int_wrong_value)
 
-    def tearDown(self):
-        del self.zamowienie
+

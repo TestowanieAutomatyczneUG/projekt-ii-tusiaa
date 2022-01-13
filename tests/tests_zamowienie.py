@@ -67,6 +67,3 @@ class TestsZamowienie(unittest.TestCase):
         self.zamowienie.przedmioty.append(112)
         self.zamowienie.dane_przedmioty()
         mock_znajdz_przedmiot.assert_called()
-
-    def tearDown(self):
-        del self.zamowienie

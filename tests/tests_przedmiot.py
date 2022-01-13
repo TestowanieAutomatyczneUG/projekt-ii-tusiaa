@@ -46,6 +46,5 @@ class TestsPrzedmiot(unittest.TestCase):
     def test_przedmiot_change_value_int(self, mock_edytuj_przedmiot):
         self.przedmiot.zmien_wartosc(200)
         mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, float(200))
+    
 
-    def tearDown(self):
-        del self.przedmiot
