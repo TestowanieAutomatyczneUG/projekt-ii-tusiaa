@@ -49,3 +49,5 @@ class TestsParametrizedKlient(unittest.TestCase):
     def test_klient_change_email_wrong_email(self):
         assert_that(self.klient.zmien_email).raises(ValueError).when_called_with(self.str_wrong_value)
 
+    def tearDown(self):
+        del self.klient

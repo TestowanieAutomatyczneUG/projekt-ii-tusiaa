@@ -33,3 +33,6 @@ class TestsParametrizedPrzedmiot(unittest.TestCase):
 
     def test_przedmiot_change_value_wrong(self):
         assert_that(self.przedmiot.zmien_wartosc).raises(ValueError).when_called_with(self.positive_float_wrong_value)
+
+    def tearDown(self):
+        del self.przedmiot
