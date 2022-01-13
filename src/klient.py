@@ -1,5 +1,5 @@
 from src.baza_danych import Baza_Danych
-from src.zamowienie import Zamowienie
+from src.zamowienie import *
 
 class Klient:
     klienci = []
@@ -23,16 +23,18 @@ class Klient:
     def dodaj_zamowienie(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
-        self.zamowienia.append(id)
+        self.zamowienia.append(Zamowienie(id, self.id))
         Baza_Danych().dodaj_zamowienie(id, self.id)
 
     def usun_zamowienie(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
-        if id not in self.zamowienia:
-            raise ValueError("Nie ma takiego zamowienia")
-        self.zamowienia.remove(id)
-        Baza_Danych().usun_zamowienie(id)
+        for zamowienie in self.zamowienia:
+            if zamowienie.id == id:
+                self.zamowienia.remove(zamowienie)
+                Baza_Danych().usun_zamowienie(id)
+                return True
+        raise ValueError("Nie ma takiego zamowienia")
 
     def zmien_imie(self, imie):
         if type(imie) is not str or not imie:
@@ -56,9 +58,10 @@ class Klient:
         wynik = []
         for zamowienie in self.zamowienia:
             przedmioty = []
-            id = Baza_Danych().znajdz_przedmioty_z_zamowienia(zamowienie)
+            id = Baza_Danych().znajdz_przedmioty_z_zamowienia(zamowienie.id)
             for przedmiot in id:
-                przedmioty.append(Baza_Danych().znajdz_przedmiot(przedmiot[1]))
+                item = Baza_Danych().znajdz_przedmiot(przedmiot[1])
+                przedmioty.append(item)
             wynik.append(przedmioty)
         return wynik
 

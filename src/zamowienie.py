@@ -21,29 +21,34 @@ class Zamowienie:
             raise ValueError("przedmiot_id nie jest liczba")
         if not Baza_Danych.znajdz_przedmiot(przedmiot_id):
             raise ValueError("Nie ma takiego przedmiotu")
-        self.przedmioty.append(przedmiot_id)
-        Baza_Danych().dodaj_przedmiot_do_zamowienia(self.id, przedmiot_id)
+        for przedmiot in Przedmiot.przedmioty:
+            if przedmiot.id == przedmiot_id:
+                self.przedmioty.append(przedmiot)
+                Baza_Danych().dodaj_przedmiot_do_zamowienia(self.id, przedmiot_id)
 
     def usun_przedmiot(self, przedmiot_id: int):
         if type(przedmiot_id) is not int:
             raise ValueError("przedmiot_id nie jest liczba")
-        if przedmiot_id not in self.przedmioty:
-            raise ValueError("Nie ma takiego przedmiotu")
-        self.przedmioty.remove(przedmiot_id)
-        Baza_Danych().usun_przedmiot_z_zamowienia(self.id, przedmiot_id)
+        for przedmiot in self.przedmioty:
+            if przedmiot.id == przedmiot_id:
+                self.przedmioty.remove(przedmiot)
+                Baza_Danych().usun_przedmiot_z_zamowienia(self.id, przedmiot_id)
+                return True
+        raise ValueError("Nie ma takiego przedmiotu")
 
     def czy_jest_przedmiot(self, przedmiot_id: int):
         if type(przedmiot_id) is not int:
             raise ValueError("przedmiot_id nie jest liczba")
-        if przedmiot_id not in self.przedmioty:
-            return False
-        return True
+        for przedmiot in self.przedmioty:
+            if przedmiot.id == przedmiot_id:
+                return True
+        return False
 
     def dane_klient(self):
         return Baza_Danych().znajdz_klienta(self.klient_id)
 
     def dane_przedmioty(self):
         wynik = []
-        for przedmiot_id in self.przedmioty:
-            wynik.append(Baza_Danych().znajdz_przedmiot(przedmiot_id))
+        for przedmiot in self.przedmioty:
+            wynik.append((przedmiot.id, przedmiot.nazwa, przedmiot.wartosc))
         return wynik

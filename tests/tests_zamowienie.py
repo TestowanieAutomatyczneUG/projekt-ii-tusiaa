@@ -7,12 +7,11 @@ class TestsZamowienie(unittest.TestCase):
 
     @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
     @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
-    @patch.object(Baza_Danych, 'znajdz_przedmioty_z_zamowienia', return_value=[(1, 111)])
     @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(111, "Nazwa", 100.0))
-    def setUp(self, mock_znajdz_przedmiot, mock_znajdz_przedmioty_z_zamowienia, mock_znajdz_klienta, mock_czytaj_zamowienia):
+    def setUp(self, mock_znajdz_przedmiot, mock_znajdz_klienta, mock_czytaj_zamowienia):
         self.zamowienie = Zamowienie(mock_czytaj_zamowienia()[0][0], mock_czytaj_zamowienia()[0][1])
-        przedmiot = mock_znajdz_przedmiot(mock_znajdz_przedmioty_z_zamowienia(mock_czytaj_zamowienia()[0][0])[0][1])
-        self.zamowienie.przedmioty.append(przedmiot[0])
+        przedmiot = Przedmiot(mock_znajdz_przedmiot()[0], mock_znajdz_przedmiot()[1], mock_znajdz_przedmiot()[2])
+        self.zamowienie.przedmioty.append(przedmiot)
             
     def test_zamowienie_init(self):
         assert_that(self.zamowienie).is_not_none()
@@ -23,12 +22,14 @@ class TestsZamowienie(unittest.TestCase):
 
     @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(112, "Nazwa", 100.0))
     def test_zamowienie_add_item(self, mock_znajdz_przedmiot):
+        Przedmiot(112, "Nazwa", 100.0)
         self.zamowienie.dodaj_przedmiot(112)
         assert_that(self.zamowienie.przedmioty).is_length(2)
 
     @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(112, "Nazwa", 100.0))
     @patch.object(Baza_Danych, 'dodaj_przedmiot_do_zamowienia')
     def test_zamowienie_add_item_database_check(self, mock_dodaj_przedmiot_do_zamowienia, mock_znajdz_przedmiot):
+        Przedmiot(112, "Nazwa", 100.0)
         self.zamowienie.dodaj_przedmiot(112)
         mock_dodaj_przedmiot_do_zamowienia.assert_called_with(self.zamowienie.id, 112)
 
@@ -38,12 +39,12 @@ class TestsZamowienie(unittest.TestCase):
             self.zamowienie.dodaj_przedmiot(112)
 
     def test_zamowienie_remove_item(self):
-        self.zamowienie.usun_przedmiot(self.zamowienie.przedmioty[0])
+        self.zamowienie.usun_przedmiot(self.zamowienie.przedmioty[0].id)
         assert_that(self.zamowienie.przedmioty).is_length(0)
 
     @patch.object(Baza_Danych, 'usun_przedmiot_z_zamowienia')
     def test_zamowienie_remove_item_database_check(self, mock_usun_przedmiot_z_zamowienia):
-        id = self.zamowienie.przedmioty[0]
+        id = self.zamowienie.przedmioty[0].id
         self.zamowienie.usun_przedmiot(id)
         mock_usun_przedmiot_z_zamowienia.assert_called_with(self.zamowienie.id, id)
 
@@ -52,7 +53,7 @@ class TestsZamowienie(unittest.TestCase):
             self.zamowienie.usun_przedmiot(112)
 
     def test_zamowienie_check_if_item_in_order_true(self):
-        assert_that(self.zamowienie.czy_jest_przedmiot(self.zamowienie.przedmioty[0])).is_true()
+        assert_that(self.zamowienie.czy_jest_przedmiot(self.zamowienie.przedmioty[0].id)).is_true()
 
     def test_zamowienie_check_if_item_in_order_false(self):
         assert_that(self.zamowienie.czy_jest_przedmiot(112)).is_false()
@@ -62,11 +63,12 @@ class TestsZamowienie(unittest.TestCase):
         self.zamowienie.dane_klient()
         mock_znajdz_klienta.assert_called_once()
 
-    @patch.object(Baza_Danych, 'znajdz_przedmiot', side_effect=[(111, "Nazwa", 100.0), (112, "Nazwa", 100.0)])
-    def test_zamowienie_get_items(self, mock_znajdz_przedmiot):
-        self.zamowienie.przedmioty.append(112)
-        self.zamowienie.dane_przedmioty()
-        mock_znajdz_przedmiot.assert_called()
+    def test_zamowienie_get_items(self):
+        assert_that(self.zamowienie.dane_przedmioty()).contains((111, "Nazwa", 100.0))
+
+    def test_zamowienie_get_items_empty(self):
+        self.zamowienie.usun_przedmiot(self.zamowienie.przedmioty[0].id)
+        assert_that(self.zamowienie.dane_przedmioty()).is_empty()
 
     def tearDown(self):
         del self.zamowienie
