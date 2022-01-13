@@ -2,6 +2,8 @@ from src.baza_danych import Baza_Danych
 from src.zamowienie import Zamowienie
 
 class Klient:
+    klienci = []
+
     def __init__(self, id, imie, nazwisko, email):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
@@ -16,6 +18,7 @@ class Klient:
         self.nazwisko = nazwisko
         self.email = email
         self.zamowienia = []
+        Klient.klienci.append(self)
 
     def dodaj_zamowienie(self, id):
         if type(id) is not int:

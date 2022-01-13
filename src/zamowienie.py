@@ -2,6 +2,8 @@ from src.baza_danych import Baza_Danych
 from src.przedmiot import Przedmiot
 
 class Zamowienie:
+    zamowienia = []
+
     def __init__(self, id: int, klient_id: int):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
@@ -12,6 +14,7 @@ class Zamowienie:
         self.id = id
         self.klient_id = klient_id
         self.przedmioty = []
+        Zamowienie.zamowienia.append(self)
 
     def dodaj_przedmiot(self, przedmiot_id: int):
         if type(przedmiot_id) is not int:

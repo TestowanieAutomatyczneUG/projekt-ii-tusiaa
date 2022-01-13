@@ -1,6 +1,8 @@
 from src.baza_danych import Baza_Danych
 
 class Przedmiot:
+    przedmioty = []
+
     def __init__(self, id: int, nazwa: str, wartosc: float):
         if type(id) is not int:
             raise ValueError("id musi być liczbą")
@@ -13,6 +15,7 @@ class Przedmiot:
         self.id = id
         self.nazwa = nazwa
         self.wartosc = float(wartosc)
+        Przedmiot.przedmioty.append(self)
 
     def dodaj_do_bazy(self):
         Baza_Danych.dodaj_przedmiot(self.id, self.nazwa, self.wartosc)
