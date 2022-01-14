@@ -84,5 +84,19 @@ class TestsZamowienie(unittest.TestCase):
     def test_zamowienie_find_order_not_found(self):
         assert_that(Zamowienie.znajdz_zamowienie(2)).is_none()
 
+    @patch.object(Baza_Danych, 'usun_zamowienie')
+    def test_zamowienie_delete_order(self, mock_usun_zamowienie):
+        Zamowienie.usun_zamowienie(self.zamowienie.id)
+        assert_that(Zamowienie.wszystkie_zamowienia()).is_empty()
+
+    @patch.object(Baza_Danych, 'usun_zamowienie')
+    def test_zamowienie_delete_order_database_check(self, mock_usun_zamowienie):
+        Zamowienie.usun_zamowienie(self.zamowienie.id)
+        mock_usun_zamowienie.assert_called_with(self.zamowienie.id)
+
+    @patch.object(Baza_Danych, 'usun_zamowienie')
+    def test_zamowienie_delete_order_not_found(self, mock_usun_zamowienie):
+        assert_that(Zamowienie.usun_zamowienie).raises(ValueError).when_called_with(2)
+
     def tearDown(self):
         del self.zamowienie
