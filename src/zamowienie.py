@@ -63,3 +63,14 @@ class Zamowienie:
             if zamowienie.id == id:
                 return zamowienie
         return None
+
+    def usun_zamowienie(id: int):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for zamowienie in Zamowienie.zamowienia:
+            if zamowienie.id == id:
+                Zamowienie.zamowienia.remove(zamowienie)
+                Baza_Danych().usun_zamowienie(id)
+                del zamowienie
+                return True
+        raise ValueError("Nie ma takiego zamowienia")

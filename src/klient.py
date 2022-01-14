@@ -31,12 +31,8 @@ class Klient:
     def usun_zamowienie(self, id):
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
-        for zamowienie in self.zamowienia:
-            if zamowienie.id == id:
-                self.zamowienia.remove(zamowienie)
-                Baza_Danych().usun_zamowienie(id)
-                return True
-        raise ValueError("Nie ma takiego zamowienia")
+        self.zamowienia.remove(Zamowienie.znajdz_zamowienie(id))
+        Zamowienie.usun_zamowienie(id)
 
     def zmien_imie(self, imie):
         if type(imie) is not str or not imie:
