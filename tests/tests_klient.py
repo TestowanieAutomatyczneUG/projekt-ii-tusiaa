@@ -9,6 +9,7 @@ class TestsKlient(unittest.TestCase):
     @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'znajdz_zamowienia_klienta', return_value=[(1, 11)])
     def setUp(self, mock_znajdz_zamowienia_klienta, mock_znajdz_klienta, mock_czytaj_klientow):
+        Klient.klienci = []
         self.klient = Klient(mock_czytaj_klientow()[0][0], mock_czytaj_klientow()[0][1], mock_czytaj_klientow()[0][2], mock_czytaj_klientow()[0][3])
         zamowienie = Zamowienie(mock_znajdz_zamowienia_klienta()[0][0], mock_znajdz_zamowienia_klienta()[0][1])
         self.klient.zamowienia.append(zamowienie)
@@ -88,10 +89,10 @@ class TestsKlient(unittest.TestCase):
         assert_that(Klient.dane_wszyscy_klienci()).contains((self.klient.id, self.klient.imie, self.klient.nazwisko, self.klient.email))
 
     def test_klient_find_by_id(self):
-        assert_that(Klient.znajdz_klienta(1)).is_equal_to(self.klient)
+        assert_that(Klient.znajdz_klienta(11)).is_equal_to(self.klient)
 
     def test_klient_find_by_id_not_found(self):
-        assert_that(Klient.znajdz_klienta(2)).is_none()
+        assert_that(Klient.znajdz_klienta(12)).is_none()
 
     def tearDown(self):
         del self.klient

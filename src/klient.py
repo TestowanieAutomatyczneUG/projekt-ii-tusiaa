@@ -13,6 +13,8 @@ class Klient:
             raise ValueError("nazwisko nie jest stringiem")
         if type(email) is not str or not email:
             raise ValueError("email nie jest stringiem")
+        if Klient.znajdz_klienta(id):
+            raise ValueError("klient o takim id juz istnieje")
         self.id = id
         self.imie = imie
         self.nazwisko = nazwisko
@@ -73,4 +75,12 @@ class Klient:
         for klient in Klient.klienci:
             wynik.append((klient.id, klient.imie, klient.nazwisko, klient.email))
         return wynik
+
+    def znajdz_klienta(id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for klient in Klient.klienci:
+            if klient.id == id:
+                return klient
+        return None
         

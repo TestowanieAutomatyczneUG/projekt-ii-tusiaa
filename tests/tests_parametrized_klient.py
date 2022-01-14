@@ -18,6 +18,7 @@ class TestsParametrizedKlient(unittest.TestCase):
     @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
     @patch.object(Baza_Danych, 'znajdz_zamowienia_klienta', return_value=[(1, 11)])
     def setUp(self, mock_znajdz_zamowienia_klienta, mock_czytaj_klientow):
+        Klient.klienci = []
         self.klient = Klient(mock_czytaj_klientow()[0][0], mock_czytaj_klientow()[0][1], mock_czytaj_klientow()[0][2], mock_czytaj_klientow()[0][3])
         zamowienie = mock_znajdz_zamowienia_klienta(mock_czytaj_klientow()[0][0])[0]
         self.klient.zamowienia.append(zamowienie[0])
@@ -48,6 +49,9 @@ class TestsParametrizedKlient(unittest.TestCase):
 
     def test_klient_change_email_wrong_email(self):
         assert_that(self.klient.zmien_email).raises(ValueError).when_called_with(self.str_wrong_value)
+
+    def test_klient_find_client_wrong_id(self):
+        assert_that(Klient.znajdz_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
 
     def tearDown(self):
         del self.klient
