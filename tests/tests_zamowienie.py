@@ -70,5 +70,12 @@ class TestsZamowienie(unittest.TestCase):
         self.zamowienie.usun_przedmiot(self.zamowienie.przedmioty[0].id)
         assert_that(self.zamowienie.dane_przedmioty()).is_empty()
 
+    def test_zamowienie_get_orders(self):
+        assert_that(Zamowienie.wszystkie_zamowienia()).contains(self.zamowienie)
+
+    def test_zamowienie_get_orders_empty(self):
+        Zamowienie.zamowienia = []
+        assert_that(Zamowienie.wszystkie_zamowienia()).is_empty()
+
     def tearDown(self):
         del self.zamowienie

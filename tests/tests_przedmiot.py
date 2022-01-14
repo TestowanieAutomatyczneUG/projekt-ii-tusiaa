@@ -46,6 +46,20 @@ class TestsPrzedmiot(unittest.TestCase):
     def test_przedmiot_change_value_int(self, mock_edytuj_przedmiot):
         self.przedmiot.zmien_wartosc(200)
         mock_edytuj_przedmiot.assert_called_once_with(self.przedmiot.id, self.przedmiot.nazwa, float(200))
+
+    def test_przedmiot_get_items(self):
+        assert_that(Przedmiot.wszystkie_przedmioty()).contains(self.przedmiot)
+
+    def test_przedmiot_get_items_empty(self):
+        Przedmiot.przedmioty = []
+        assert_that(Przedmiot.wszystkie_przedmioty()).is_empty()
+
+    def test_przedmiot_get_data_items(self):
+        assert_that(Przedmiot.dane_wszystkie_przedmioty()).contains((self.przedmiot.id, self.przedmiot.nazwa, self.przedmiot.wartosc))
+
+    def test_przedmiot_get_data_items_empty(self):
+        Przedmiot.przedmioty = []
+        assert_that(Przedmiot.dane_wszystkie_przedmioty()).is_empty()
     
     def tearDown(self):
         del self.przedmiot
