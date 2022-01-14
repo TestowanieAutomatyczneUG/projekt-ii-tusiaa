@@ -87,6 +87,11 @@ class TestsKlient(unittest.TestCase):
     def test_klient_get_data_clients(self):
         assert_that(Klient.dane_wszyscy_klienci()).contains((self.klient.id, self.klient.imie, self.klient.nazwisko, self.klient.email))
 
+    def test_klient_find_by_id(self):
+        assert_that(Klient.znajdz_klienta(1)).is_equal_to(self.klient)
+
+    def test_klient_find_by_id_not_found(self):
+        assert_that(Klient.znajdz_klienta(2)).is_none()
 
     def tearDown(self):
         del self.klient
