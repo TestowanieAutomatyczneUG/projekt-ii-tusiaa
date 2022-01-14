@@ -9,6 +9,7 @@ class TestsZamowienie(unittest.TestCase):
     @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
     @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(111, "Nazwa", 100.0))
     def setUp(self, mock_znajdz_przedmiot, mock_znajdz_klienta, mock_czytaj_zamowienia):
+        Zamowienie.zamowienia = []
         self.zamowienie = Zamowienie(mock_czytaj_zamowienia()[0][0], mock_czytaj_zamowienia()[0][1])
         przedmiot = Przedmiot(mock_znajdz_przedmiot()[0], mock_znajdz_przedmiot()[1], mock_znajdz_przedmiot()[2])
         self.zamowienie.przedmioty.append(przedmiot)

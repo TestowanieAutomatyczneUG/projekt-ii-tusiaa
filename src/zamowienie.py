@@ -55,3 +55,11 @@ class Zamowienie:
 
     def wszystkie_zamowienia():
         return Zamowienie.zamowienia
+
+    def znajdz_zamowienie(id: int):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for zamowienie in Zamowienie.zamowienia:
+            if zamowienie.id == id:
+                return zamowienie
+        return None

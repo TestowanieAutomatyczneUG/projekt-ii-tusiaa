@@ -17,6 +17,7 @@ class TestsParametrizedPrzedmiot(unittest.TestCase):
 
     @patch.object(Baza_Danych, 'czytaj_przedmioty', return_value=[(1, "Nazwa", 100.0)])
     def setUp(self, mock_czytaj_przedmioty):
+        Przedmiot.przedmioty = []
         self.przedmiot = Przedmiot(mock_czytaj_przedmioty()[0][0], mock_czytaj_przedmioty()[0][1], mock_czytaj_przedmioty()[0][2])
 
     def test_przedmiot_init_wrong_id(self):

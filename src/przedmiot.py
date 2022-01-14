@@ -45,4 +45,12 @@ class Przedmiot:
         for przedmiot in Przedmiot.przedmioty:
             wynik.append((przedmiot.id, przedmiot.nazwa, przedmiot.wartosc))
         return wynik
+
+    def znajdz_przedmiot(id):
+        if type(id) is not int:
+            raise ValueError("id musi być liczbą")
+        for przedmiot in Przedmiot.przedmioty:
+            if przedmiot.id == id:
+                return przedmiot
+        return None
         
