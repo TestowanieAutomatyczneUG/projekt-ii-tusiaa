@@ -77,5 +77,16 @@ class TestsKlient(unittest.TestCase):
         self.klient.dane_zamowienia()
         mock_znajdz_zamowienie.assert_called_with(1)
 
+    def test_klient_get_orders_empty(self):
+        self.klient.zamowienia = []
+        assert_that(self.klient.dane_zamowienia()).is_empty()
+
+    def test_klient_get_clients(self):
+        assert_that(Klient.wszyscy_klienci()).contains(self.klient)
+
+    def test_klient_get_data_clients(self):
+        assert_that(Klient.dane_wszyscy_klienci()).contains((self.klient.id, self.klient.imie, self.klient.nazwisko, self.klient.email))
+
+
     def tearDown(self):
         del self.klient
