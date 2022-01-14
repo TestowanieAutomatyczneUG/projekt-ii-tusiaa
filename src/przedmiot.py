@@ -53,4 +53,15 @@ class Przedmiot:
             if przedmiot.id == id:
                 return przedmiot
         return None
+
+    def usun_przedmiot(id):
+        if type(id) is not int:
+            raise ValueError("id musi być liczbą")
+        for przedmiot in Przedmiot.przedmioty:
+            if przedmiot.id == id:
+                Przedmiot.przedmioty.remove(przedmiot)
+                Baza_Danych.usun_przedmiot(id)
+                del przedmiot
+                return True
+        raise ValueError("Nie ma przedmiotu o takim id")
         
