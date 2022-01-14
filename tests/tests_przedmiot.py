@@ -67,6 +67,20 @@ class TestsPrzedmiot(unittest.TestCase):
 
     def test_przedmiot_find_item_not_found(self):
         assert_that(Przedmiot.znajdz_przedmiot(112)).is_none()
+
+    @patch.object(Baza_Danych, 'usun_przedmiot')
+    def test_przedmiot_delete_item(self, mock_usun_przedmiot):
+        Przedmiot.usun_przedmiot(self.przedmiot.id)
+        assert_that(Przedmiot.przedmioty).is_empty()
+
+    @patch.object(Baza_Danych, 'usun_przedmiot')
+    def test_przedmiot_delete_item_database_check(self, mock_usun_przedmiot):
+        Przedmiot.usun_przedmiot(self.przedmiot.id)
+        mock_usun_przedmiot.assert_called_once_with(self.przedmiot.id)
+
+    @patch.object(Baza_Danych, 'usun_przedmiot')
+    def test_przedmiot_delete_item_not_found(self, mock_usun_przedmiot):
+        assert_that(Przedmiot.usun_przedmiot).raises(ValueError).when_called_with(112)
     
     def tearDown(self):
         del self.przedmiot
