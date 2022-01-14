@@ -60,6 +60,12 @@ class TestsPrzedmiot(unittest.TestCase):
     def test_przedmiot_get_data_items_empty(self):
         Przedmiot.przedmioty = []
         assert_that(Przedmiot.dane_wszystkie_przedmioty()).is_empty()
+
+    def test_przedmiot_find_item(self):
+        assert_that(Przedmiot.znajdz_przedmiot(self.przedmiot.id)).is_equal_to(self.przedmiot)
+
+    def test_przedmiot_find_item_not_found(self):
+        assert_that(Przedmiot.znajdz_przedmiot(112)).is_none()
     
     def tearDown(self):
         del self.przedmiot

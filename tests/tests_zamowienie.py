@@ -77,5 +77,11 @@ class TestsZamowienie(unittest.TestCase):
         Zamowienie.zamowienia = []
         assert_that(Zamowienie.wszystkie_zamowienia()).is_empty()
 
+    def test_zamowienie_find_order(self):
+        assert_that(Zamowienie.znajdz_zamowienie(self.zamowienie.id)).is_equal_to(self.zamowienie)
+
+    def test_zamowienie_find_order_not_found(self):
+        assert_that(Zamowienie.znajdz_zamowienie(2)).is_none()
+
     def tearDown(self):
         del self.zamowienie

@@ -34,5 +34,8 @@ class TestsParametrizedPrzedmiot(unittest.TestCase):
     def test_przedmiot_change_value_wrong(self):
         assert_that(self.przedmiot.zmien_wartosc).raises(ValueError).when_called_with(self.positive_float_wrong_value)
 
+    def test_przedmiot_find_item_wrong_id(self):
+        assert_that(Przedmiot.znajdz_przedmiot).raises(ValueError).when_called_with(self.int_wrong_value)
+
     def tearDown(self):
         del self.przedmiot
