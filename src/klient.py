@@ -65,4 +65,12 @@ class Klient:
             wynik.append(przedmioty)
         return wynik
 
+    def wszyscy_klienci():
+        return Klient.klienci
+
+    def dane_wszyscy_klienci():
+        wynik = []
+        for klient in Klient.klienci:
+            wynik.append((klient.id, klient.imie, klient.nazwisko, klient.email))
+        return wynik
         
