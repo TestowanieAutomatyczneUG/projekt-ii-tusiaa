@@ -83,4 +83,15 @@ class Klient:
             if klient.id == id:
                 return klient
         return None
+
+    def usun_klienta(id):
+        if type(id) is not int:
+            raise ValueError("id nie jest liczba")
+        for klient in Klient.klienci:
+            if klient.id == id:
+                Klient.klienci.remove(klient)
+                del klient
+                Baza_Danych().usun_klienta(id)
+                return True
+        raise ValueError("Nie ma takiego klienta")
         
