@@ -85,8 +85,16 @@ class TestsKlient(unittest.TestCase):
     def test_klient_get_clients(self):
         assert_that(Klient.wszyscy_klienci()).contains(self.klient)
 
+    def test_klient_get_clients_empty(self):
+        Klient.klienci = []
+        assert_that(Klient.wszyscy_klienci()).is_empty()
+
     def test_klient_get_data_clients(self):
         assert_that(Klient.dane_wszyscy_klienci()).contains((self.klient.id, self.klient.imie, self.klient.nazwisko, self.klient.email))
+
+    def test_klient_get_data_clients_empty(self):
+        Klient.klienci = []
+        assert_that(Klient.dane_wszyscy_klienci()).is_empty()
 
     def test_klient_find_by_id(self):
         assert_that(Klient.znajdz_klienta(11)).is_equal_to(self.klient)
