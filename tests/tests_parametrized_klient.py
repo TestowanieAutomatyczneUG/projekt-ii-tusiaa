@@ -53,5 +53,8 @@ class TestsParametrizedKlient(unittest.TestCase):
     def test_klient_find_client_wrong_id(self):
         assert_that(Klient.znajdz_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
 
+    def test_klient_delete_client_wrong_id(self):
+        assert_that(Klient.usun_klienta).raises(ValueError).when_called_with(self.int_wrong_value)
+
     def tearDown(self):
         del self.klient

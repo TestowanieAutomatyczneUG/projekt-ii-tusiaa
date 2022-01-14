@@ -94,5 +94,18 @@ class TestsKlient(unittest.TestCase):
     def test_klient_find_by_id_not_found(self):
         assert_that(Klient.znajdz_klienta(12)).is_none()
 
+    @patch.object(Baza_Danych, 'usun_klienta')
+    def test_klient_delete_by_id(self, mock_usun_klienta):
+        Klient.usun_klienta(self.klient.id)
+        assert_that(Klient.wszyscy_klienci()).does_not_contain(self.klient)
+
+    @patch.object(Baza_Danych, 'usun_klienta')
+    def test_klient_delete_by_id_database_check(self, mock_usun_klienta):
+        Klient.usun_klienta(self.klient.id)
+        mock_usun_klienta.assert_called_with(self.klient.id)
+
+    def test_klient_delete_by_id_not_found(self):
+        assert_that(Klient.usun_klienta).raises(ValueError).when_called_with(12)
+
     def tearDown(self):
         del self.klient
