@@ -52,3 +52,6 @@ class Zamowienie:
         for przedmiot in self.przedmioty:
             wynik.append((przedmiot.id, przedmiot.nazwa, przedmiot.wartosc))
         return wynik
+
+    def wszystkie_zamowienia():
+        return Zamowienie.zamowienia

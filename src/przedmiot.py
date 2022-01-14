@@ -36,4 +36,13 @@ class Przedmiot:
             raise ValueError("wartość musi być dodatnia")
         self.wartosc = float(wartosc)
         Baza_Danych.edytuj_przedmiot(self.id, self.nazwa, self.wartosc)
+
+    def wszystkie_przedmioty():
+        return Przedmiot.przedmioty
+
+    def dane_wszystkie_przedmioty():
+        wynik = []
+        for przedmiot in Przedmiot.przedmioty:
+            wynik.append((przedmiot.id, przedmiot.nazwa, przedmiot.wartosc))
+        return wynik
         
