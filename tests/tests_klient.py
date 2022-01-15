@@ -1,18 +1,16 @@
 import unittest
 from assertpy import *
 from unittest.mock import *
-
-from pip import main
 from src.klient import *
 
 class TestsKlient(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"), autospec=True)
-    def setUp(self, mock_znajdz_klienta):
+    def setUp(self):
         def mock_znajdz_zamowienia_klienta():
             return [(1, 11)]
         def mock_czytaj_klientow():
             return [(11, "Jan", "Kowalski", "mail")]
+        Baza_Danych.znajdz_klienta = Mock(return_value=(11, "Jan", "Kowalski", "mail"))
         Klient.klienci = []
         Zamowienie.zamowienia = []
         self.klient = Klient(mock_czytaj_klientow()[0][0], mock_czytaj_klientow()[0][1], mock_czytaj_klientow()[0][2], mock_czytaj_klientow()[0][3])
@@ -22,14 +20,12 @@ class TestsKlient(unittest.TestCase):
     def test_klient_init(self):
         assert_that(self.klient).is_not_none()
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"), autospec=True)
-    def test_klient_add_order(self, mock_znajdz_klienta):
+    def test_klient_add_order(self,):
         self.klient.dodaj_zamowienie(2)
         assert_that(self.klient.zamowienia).is_length(2)
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"), autospec=True)
     @patch.object(Baza_Danych, 'dodaj_zamowienie')
-    def test_klient_add_order_database_check(self, mock_dodaj_zamowienie, mock_znajdz_klienta):
+    def test_klient_add_order_database_check(self, mock_dodaj_zamowienie):
         self.klient.dodaj_zamowienie(2)
         mock_dodaj_zamowienie.assert_called_with(2, self.klient.id)
 

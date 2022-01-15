@@ -15,12 +15,12 @@ from src.zamowienie import *
 ])
 class TestsParametrizedZamowienie(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
-    def setUp(self, mock_znajdz_klienta):
+    def setUp(self):
         def mock_czytaj_zamowienia():
             return [(1, 11)]
         def mock_znajdz_przedmiot():
             return (111, "Nazwa", 100.0)
+        Baza_Danych.znajdz_klienta = Mock(return_value=(11, "Jan", "Kowalski", "mail"))
         Zamowienie.zamowienia = []
         self.zamowienie = Zamowienie(mock_czytaj_zamowienia()[0][0], mock_czytaj_zamowienia()[0][1])
         przedmiot = Przedmiot(mock_znajdz_przedmiot()[0], mock_znajdz_przedmiot()[1], mock_znajdz_przedmiot()[2])

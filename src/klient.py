@@ -1,7 +1,6 @@
 import json
 from src.baza_danych import Baza_Danych
 from src.zamowienie import *
-from json import *
 
 class Klient:
     klienci = []
