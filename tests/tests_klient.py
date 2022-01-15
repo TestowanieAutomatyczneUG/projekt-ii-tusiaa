@@ -5,10 +5,12 @@ from src.klient import *
 
 class TestsKlient(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
     @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
-    @patch.object(Baza_Danych, 'znajdz_zamowienia_klienta', return_value=[(1, 11)])
-    def setUp(self, mock_znajdz_zamowienia_klienta, mock_znajdz_klienta, mock_czytaj_klientow):
+    def setUp(self, mock_znajdz_klienta):
+        def mock_znajdz_zamowienia_klienta():
+            return [(1, 11)]
+        def mock_czytaj_klientow():
+            return [(11, "Jan", "Kowalski", "mail")]
         Klient.klienci = []
         Zamowienie.zamowienia = []
         self.klient = Klient(mock_czytaj_klientow()[0][0], mock_czytaj_klientow()[0][1], mock_czytaj_klientow()[0][2], mock_czytaj_klientow()[0][3])

@@ -5,8 +5,9 @@ from src.przedmiot import *
 
 class TestsPrzedmiot(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'czytaj_przedmioty', return_value=[(1, "Nazwa", 100.0)])
-    def setUp(self, mock_czytaj_przedmioty):
+    def setUp(self):
+        def mock_czytaj_przedmioty():
+            return [(1, "Nazwa", 100.0)]
         Przedmiot.przedmioty = []
         self.przedmiot = Przedmiot(mock_czytaj_przedmioty()[0][0], mock_czytaj_przedmioty()[0][1], mock_czytaj_przedmioty()[0][2])
 

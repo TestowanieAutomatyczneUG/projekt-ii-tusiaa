@@ -15,13 +15,17 @@ from src.klient import *
 ])
 class TestsParametrizedKlient(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'czytaj_klientow', return_value=[(11, "Jan", "Kowalski", "mail")])
-    @patch.object(Baza_Danych, 'znajdz_zamowienia_klienta', return_value=[(1, 11)])
-    def setUp(self, mock_znajdz_zamowienia_klienta, mock_czytaj_klientow):
+    @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
+    def setUp(self, mock_znajdz_klienta):
+        def mock_znajdz_zamowienia_klienta():
+            return [(1, 11)]
+        def mock_czytaj_klientow():
+            return [(11, "Jan", "Kowalski", "mail")]
         Klient.klienci = []
+        Zamowienie.zamowienia = []
         self.klient = Klient(mock_czytaj_klientow()[0][0], mock_czytaj_klientow()[0][1], mock_czytaj_klientow()[0][2], mock_czytaj_klientow()[0][3])
-        zamowienie = mock_znajdz_zamowienia_klienta(mock_czytaj_klientow()[0][0])[0]
-        self.klient.zamowienia.append(zamowienie[0])
+        zamowienie = Zamowienie(mock_znajdz_zamowienia_klienta()[0][0], mock_znajdz_zamowienia_klienta()[0][1])
+        self.klient.zamowienia.append(zamowienie)
 
     def test_klient_init_wrong_id(self):\
         assert_that(Klient).raises(ValueError).when_called_with(self.int_wrong_value, self.klient.imie, self.klient.nazwisko, self.klient.email)

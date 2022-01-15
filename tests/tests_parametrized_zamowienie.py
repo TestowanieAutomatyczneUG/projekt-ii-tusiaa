@@ -15,15 +15,16 @@ from src.zamowienie import *
 ])
 class TestsParametrizedZamowienie(unittest.TestCase):
 
-    @patch.object(Baza_Danych, 'czytaj_zamowienia', return_value=[(1, 11)])
     @patch.object(Baza_Danych, 'znajdz_klienta', return_value=(11, "Jan", "Kowalski", "mail"))
-    @patch.object(Baza_Danych, 'znajdz_przedmioty_z_zamowienia', return_value=[(1, 111)])
-    @patch.object(Baza_Danych, 'znajdz_przedmiot', return_value=(111, "Nazwa", 100.0))
-    def setUp(self, mock_znajdz_przedmiot, mock_znajdz_przedmioty_z_zamowienia, mock_znajdz_klienta, mock_czytaj_zamowienia):
+    def setUp(self, mock_znajdz_klienta):
+        def mock_czytaj_zamowienia():
+            return [(1, 11)]
+        def mock_znajdz_przedmiot():
+            return (111, "Nazwa", 100.0)
         Zamowienie.zamowienia = []
         self.zamowienie = Zamowienie(mock_czytaj_zamowienia()[0][0], mock_czytaj_zamowienia()[0][1])
-        przedmiot = mock_znajdz_przedmiot(mock_znajdz_przedmioty_z_zamowienia(mock_czytaj_zamowienia()[0][0])[0][1])
-        self.zamowienie.przedmioty.append(Przedmiot(przedmiot[0], przedmiot[1], przedmiot[2]))
+        przedmiot = Przedmiot(mock_znajdz_przedmiot()[0], mock_znajdz_przedmiot()[1], mock_znajdz_przedmiot()[2])
+        self.zamowienie.przedmioty.append(przedmiot)
 
     def test_zamowienie_init_wrong_id(self):
         assert_that(Zamowienie).raises(ValueError).when_called_with(self.int_wrong_value, self.zamowienie.klient_id)
