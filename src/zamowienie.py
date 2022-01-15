@@ -24,7 +24,7 @@ class Zamowienie:
         for przedmiot in Przedmiot.przedmioty:
             if przedmiot.id == przedmiot_id:
                 self.przedmioty.append(przedmiot)
-                Baza_Danych().dodaj_przedmiot_do_zamowienia(self.id, przedmiot_id)
+                Baza_Danych.dodaj_przedmiot_do_zamowienia(self.id, przedmiot_id)
 
     def usun_przedmiot(self, przedmiot_id: int):
         if type(przedmiot_id) is not int:
@@ -32,7 +32,7 @@ class Zamowienie:
         for przedmiot in self.przedmioty:
             if przedmiot.id == przedmiot_id:
                 self.przedmioty.remove(przedmiot)
-                Baza_Danych().usun_przedmiot_z_zamowienia(self.id, przedmiot_id)
+                Baza_Danych.usun_przedmiot_z_zamowienia(self.id, przedmiot_id)
                 return True
         raise ValueError("Nie ma takiego przedmiotu")
 
@@ -45,7 +45,7 @@ class Zamowienie:
         return False
 
     def dane_klient(self):
-        return Baza_Danych().znajdz_klienta(self.klient_id)
+        return Baza_Danych.znajdz_klienta(self.klient_id)
 
     def dane_przedmioty(self):
         wynik = []
@@ -70,7 +70,7 @@ class Zamowienie:
         for zamowienie in Zamowienie.zamowienia:
             if zamowienie.id == id:
                 Zamowienie.zamowienia.remove(zamowienie)
-                Baza_Danych().usun_zamowienie(id)
+                Baza_Danych.usun_zamowienie(id)
                 del zamowienie
                 return True
         raise ValueError("Nie ma takiego zamowienia")

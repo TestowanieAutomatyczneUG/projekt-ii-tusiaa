@@ -1,45 +1,45 @@
 class Baza_Danych:
-    def czytaj_klientow(self):
+    def czytaj_klientow():
         pass
-    def czytaj_przedmioty(self):
+    def czytaj_przedmioty():
         pass
-    def czytaj_zamowienia(self):
+    def czytaj_zamowienia():
         pass
-    def czytaj_przedmioty_z_zamowien(self):
+    def czytaj_przedmioty_z_zamowien():
         pass
-    def znajdz_przedmioty_z_zamowienia(self, id_zamowienia):
+    def znajdz_przedmioty_z_zamowienia(id_zamowienia):
         pass
-    def znajdz_zamowienia_z_przedmiotem(self, id_przedmiotu):
+    def znajdz_zamowienia_z_przedmiotem(id_przedmiotu):
         pass
-    def znajdz_klienta(self, id):
+    def znajdz_klienta(id):
         pass
-    def znajdz_przedmiot(self, id):
+    def znajdz_przedmiot(id):
         pass
-    def znajdz_zamowienie(self, id):
+    def znajdz_zamowienie(id):
         pass
-    def znajdz_zamowienia_klienta(self, id_klienta):
+    def znajdz_zamowienia_klienta(id_klienta):
         pass
-    def dodaj_klienta(self, id, imie, nazwisko, email):
+    def dodaj_klienta(id, imie, nazwisko, email):
         pass
-    def dodaj_przedmiot(self, id, nazwa, wartosc):
+    def dodaj_przedmiot(id, nazwa, wartosc):
         pass
-    def dodaj_zamowienie(self, id, klient_id):
+    def dodaj_zamowienie(id, klient_id):
         pass
-    def dodaj_przedmiot_do_zamowienia(self, id_zamowienia, id_przedmiotu):
+    def dodaj_przedmiot_do_zamowienia(id_zamowienia, id_przedmiotu):
         pass
-    def usun_klienta(self, id):
+    def usun_klienta(id):
         pass
-    def usun_przedmiot(self, id):
+    def usun_przedmiot(id):
         pass
-    def usun_zamowienie(self, id):
+    def usun_zamowienie(id):
         pass
-    def usun_przedmiot_z_zamowienia(self, id_zamowienia, id_przedmiotu):
+    def usun_przedmiot_z_zamowienia(id_zamowienia, id_przedmiotu):
         pass
-    def edytuj_klienta(self, id, imie, nazwisko, email):
+    def edytuj_klienta(id, imie, nazwisko, email):
         pass
-    def edytuj_przedmiot(self, id, nazwa, wartosc):
+    def edytuj_przedmiot(id, nazwa, wartosc):
         pass
-    def edytuj_zamowienie(self, id, klient_id):
+    def edytuj_zamowienie(id, klient_id):
         pass
-    def edytuj_przedmiot_z_zamowienia(self, id_zamowienia, id_przedmiotu):
+    def edytuj_przedmiot_z_zamowienia(id_zamowienia, id_przedmiotu):
         pass

@@ -26,7 +26,7 @@ class Klient:
         if type(id) is not int:
             raise ValueError("id nie jest liczba")
         self.zamowienia.append(Zamowienie(id, self.id))
-        Baza_Danych().dodaj_zamowienie(id, self.id)
+        Baza_Danych.dodaj_zamowienie(id, self.id)
 
     def usun_zamowienie(self, id):
         if type(id) is not int:
@@ -38,27 +38,27 @@ class Klient:
         if type(imie) is not str or not imie:
             raise ValueError("imie nie jest stringiem")
         self.imie = imie
-        Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
+        Baza_Danych.edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
 
     def zmien_nazwisko(self, nazwisko):
         if type(nazwisko) is not str or not nazwisko:
             raise ValueError("nazwisko nie jest stringiem")
         self.nazwisko = nazwisko
-        Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
+        Baza_Danych.edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
 
     def zmien_email(self, email):
         if type(email) is not str or not email:
             raise ValueError("email nie jest stringiem")
         self.email = email
-        Baza_Danych().edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
+        Baza_Danych.edytuj_klienta(self.id, self.imie, self.nazwisko, self.email)
 
     def dane_zamowienia(self):
         wynik = []
         for zamowienie in self.zamowienia:
             przedmioty = []
-            id = Baza_Danych().znajdz_przedmioty_z_zamowienia(zamowienie.id)
+            id = Baza_Danych.znajdz_przedmioty_z_zamowienia(zamowienie.id)
             for przedmiot in id:
-                item = Baza_Danych().znajdz_przedmiot(przedmiot[1])
+                item = Baza_Danych.znajdz_przedmiot(przedmiot[1])
                 przedmioty.append(item)
             wynik.append(przedmioty)
         return wynik
@@ -87,7 +87,7 @@ class Klient:
             if klient.id == id:
                 Klient.klienci.remove(klient)
                 del klient
-                Baza_Danych().usun_klienta(id)
+                Baza_Danych.usun_klienta(id)
                 return True
         raise ValueError("Nie ma takiego klienta")
         
