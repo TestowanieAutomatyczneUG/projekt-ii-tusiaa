@@ -1,5 +1,7 @@
+import json
 from src.baza_danych import Baza_Danych
 from src.zamowienie import *
+from json import *
 
 class Klient:
     klienci = []
@@ -90,4 +92,11 @@ class Klient:
                 Baza_Danych.usun_klienta(id)
                 return True
         raise ValueError("Nie ma takiego klienta")
+
+    def zapisz_do_pliku():
+        with open("data/klienci.json", "w") as plik:
+            wynik = []
+            for klient in Klient.klienci:
+                wynik.append(klient)
+            plik.write(json.dumps(wynik, indent=4, default=vars))
         

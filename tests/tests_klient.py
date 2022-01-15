@@ -1,6 +1,8 @@
 import unittest
 from assertpy import *
 from unittest.mock import *
+
+from pip import main
 from src.klient import *
 
 class TestsKlient(unittest.TestCase):
@@ -124,6 +126,18 @@ class TestsKlient(unittest.TestCase):
 
     def test_klient_delete_by_id_not_found(self):
         assert_that(Klient.usun_klienta).raises(ValueError).when_called_with(12)
+
+    def test_klient_save_to_file(self):
+        mock = mock_open()
+        with patch('builtins.open', mock):
+            Klient.zapisz_do_pliku()
+        mock.assert_called_with('data/klienci.json', 'w')
+
+    def test_klient_save_to_file_write_check(self):
+        mock = mock_open()
+        with patch('builtins.open', mock):
+            Klient.zapisz_do_pliku()
+        mock.return_value.write.assert_called_with(json.dumps([self.klient], indent=4, default=vars))
 
     def tearDown(self):
         del self.klient
